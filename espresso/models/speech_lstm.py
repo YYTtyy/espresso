@@ -584,7 +584,7 @@ class SpeechLSTMDecoder(FairseqIncrementalDecoder):
             if epoch > 0:
                 sampling_prob = self.scheduled_sampling_rate_scheduler.step(epoch)
                 if sampling_prob < 1.0:  # apply scheduled sampling
-                    return self._forward_with_schduled_sampling(
+                    return self._forward_with_scheduled_sampling(
                         prev_output_tokens, sampling_prob, encoder_out=encoder_out,
                         incremental_state={},  # use empty dict to preserve forward state
                     )
@@ -594,7 +594,7 @@ class SpeechLSTMDecoder(FairseqIncrementalDecoder):
         )
         return self.output_layer(x), attn_scores
 
-    def _forward_with_schduled_sampling(
+    def _forward_with_scheduled_sampling(
         self, prev_output_tokens, sampling_prob, encoder_out=None, incremental_state=None,
     ):
         bsz, seqlen = prev_output_tokens.size()
